@@ -79,8 +79,8 @@ public class Main2 extends javax.swing.JFrame {
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         txtCodigoMotorizado = new javax.swing.JTextField();
-        txtCantidadMotorizado = new javax.swing.JTextField();
-        txtConsigna = new javax.swing.JTextField();
+        txtNombreMotorizado = new javax.swing.JTextField();
+        txtCoelular = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -157,11 +157,16 @@ public class Main2 extends javax.swing.JFrame {
 
         jLabel44.setText("Codigo");
 
-        jLabel45.setText("Cantidad");
+        jLabel45.setText("Nombre");
 
-        jLabel46.setText("Consigna");
+        jLabel46.setText("Celular");
 
         btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,12 +249,12 @@ public class Main2 extends javax.swing.JFrame {
                                             .addComponent(jLabel40)
                                             .addComponent(jLabel45)
                                             .addComponent(jLabel46))
-                                        .addGap(23, 23, 23)
+                                        .addGap(32, 32, 32)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtCantidadMotorizado, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtNombreMotorizado, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtCodigoMotorizado, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtEstadoPedido)
-                                            .addComponent(txtConsigna)))))))
+                                            .addComponent(txtCoelular)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEscribir)
@@ -372,11 +377,11 @@ public class Main2 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel45)
-                            .addComponent(txtCantidadMotorizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombreMotorizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel46)
-                            .addComponent(txtConsigna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCoelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(66, 66, 66)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEnviar)
@@ -389,6 +394,8 @@ public class Main2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscribirActionPerformed
+        //Mensaje Confirmacion
+        txpShow.setText("Los datos de la matricula se escribieron correctamente");
         // Needed
         String CodigoC =txtCodigoC.getText();
         String NombreC =txtNombreC.getText();
@@ -403,87 +410,157 @@ public class Main2 extends javax.swing.JFrame {
         String Subtotal=txtSubtotal.getText();
         String CantidadDF=txtCantidadDF.getText();
         String CodigoPr =txtCodigoPr.getText();
-        String PrecioRV=txtPrecioRef.getText();
-        String CodigoV=txtCodigoDP.getText();
+        String PrecioRf=txtPrecioRef.getText();
+        String CodigoDP=txtCodigoDP.getText();
         String CantidadDP=txtCantidadDP.getText();
         String CodigoP=txtCodigoP.getText();
         String FechaP=txtFechaPedido.getText();
         String Estado=txtEstadoPedido.getText();
         String CodigoM=txtCodigoMotorizado.getText();
-        String CantidadMo=txtCantidadMotorizado.getText();
-        String Consigna=txtConsigna.getText();
+        String NombreMo=txtNombreMotorizado.getText();
+        String Celular=txtCoelular.getText();
         
-        RegistroVenta rv = new RegistroVenta(CodigoRV, Costo, WIDTH, d)
         //Declarar objeto
-        Automovil auto = new Automovil(CodigoA, Costo);
-        auto.setCodAutomvil(CodigoA);
-        auto.setPlacaAutomovil(Placa);
-        auto.setModeloAutomovil(Modelo);
+        Cliente cliente = new Cliente(CodigoC, NombreC,Direccion, TelefonoC);
+        cliente.setCodCliente(CodigoC);
+        cliente.setDireccionCliente(Direccion);
+        cliente.setNombreCliente(NombreC);
+        cliente.setTelefonoCliente(TelefonoC);
+              
+        DetalleFactura detallefa = new DetalleFactura(CodigoDF,Double.parseDouble(PrecioUni), Double.parseDouble(Subtotal),Float.parseFloat( CantidadDF));
+        detallefa.setCantidadDetalleFactura(Float.parseFloat(CantidadDF));
+        detallefa.setCodDetalleFactura(CodigoDF);
+        detallefa.setPrecioRealUnitarioDetalleFactura(Double.parseDouble(CantidadDF));
+        detallefa.setSubtotalDetalleFactura(Double.parseDouble(Subtotal));
+        
+        DetallePedido detallepe = new DetallePedido(CodigoP, Float.parseFloat(CantidadDP));
+        detallepe.setCantidadDetallePedido(Float.parseFloat(CantidadDP));
+        detallepe.setCodDetallePedido(CodigoP);
+        
+        Factura factura = new Factura(CodigoF, TipoP, Double.parseDouble(Monto));
+        factura.setCodRegistroVenta(CodigoDP);
+        factura.setMontoRegistroVenta(Double.parseDouble(Monto));
+        factura.setTipoPagoRegistroVenta(TipoP);
+        
+        Motorizado moto = new Motorizado(CodigoM, NombreMo,Celular);
+        moto.setCelularMotorizado(Celular);
+        moto.setCodMotorizado(CodigoM);
+        moto.setNombreMotorizado(NombreMo);
 
-        Cliente cliente = new Cliente(CodigoC, NombreC,Cliente,CelularC );
-        Escuela escuela = new Escuela(Escuela);
-        escuela.setNombre(Escuela);
-        facultad.setTipo(nombreFacultad);
+        Pedido pedido = new Pedido(CodigoP, FechaP, Estado);
+        pedido.setCodPedido(CodigoP);
+        pedido.setEstadoPedido(Estado);
+        pedido.setFechaHoraPedido(FechaP);
+        
+        Producto producto = new Producto(CodigoPr, Descripcion,Double.parseDouble(PrecioRf));
+        producto.setCodProducto(CodigoPr);
+        producto.setDescripcionProducto(Descripcion);
+        producto.setPrecioReferenciaProducto(Double.parseDouble(PrecioRf));
 
-        Semestre semestre =new Semestre();
-        semestre.setCiclo(ciclo);
-        semestre.setSemestre(semestr);
 
-        Alumno alumno = new Alumno(nombreAlumno,ApellidosAlumno, fechaNac);
-        alumno.setNombre(nombreAlumno);
-        alumno.setApellidos(ApellidosAlumno);
-        alumno.setFechaNac(fechaNac);
-
-        PlanEstudio plan = new PlanEstudio(codigo,Escuela);
-        plan.setCodigo(codigo);
-
-        Catalogo catalogo = new Catalogo();
-        catalogo.setGrupo(catalog);
-
-        //Mensaje Confirmacion
-        txpShow.setText("Los datos de la matricula se escribieron correctamente");
     }//GEN-LAST:event_btnEscribirActionPerformed
 
     private void btnLeerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeerActionPerformed
-        String numMatricula=txtNumMatricula.getText();
-        String sede=txtSede.getText();
-        String semestr=txtSemestre.getText();
-        String ciclo=txtCiclo.getText();
-        String nombreFacultad=cboNombreF.getItemAt(WIDTH);
-        String nombreAlumno=txtNombreAlumno.getText();
-        String Escuela =txtEscuela.getText();
-        String ApellidosAlumno=txtApellidos.getText();
-        String fechaNac=txtFechaNac.getText();
-        String codigo=cboCodigoPlan.getItemAt(WIDTH);
-        String catalog=cboCatalogo.getItemAt(WIDTH);
+        String CodigoC =txtCodigoC.getText();
+        String NombreC =txtNombreC.getText();
+        String Direccion=txtDireccion.getText();
+        String TelefonoC=txtTelefono.getText();
+        String CodigoF=txtCodigoF.getText();
+        String Descripcion=txtDescripcion.getText();
+        String TipoP=txtTipoPago.getText();
+        String Monto=txtMonto.getText();
+        String CodigoDF=txtCodigoDF.getText();
+        String PrecioUni=txtPrecioUnit.getText();
+        String Subtotal=txtSubtotal.getText();
+        String CantidadDF=txtCantidadDF.getText();
+        String CodigoPr =txtCodigoPr.getText();
+        String PrecioRf=txtPrecioRef.getText();
+        String CodigoDP=txtCodigoDP.getText();
+        String CantidadDP=txtCantidadDP.getText();
+        String CodigoP=txtCodigoP.getText();
+        String FechaP=txtFechaPedido.getText();
+        String Estado=txtEstadoPedido.getText();
+        String CodigoM=txtCodigoMotorizado.getText();
+        String NombreMo=txtNombreMotorizado.getText();
+        String Celular=txtCoelular.getText();
 
         txpShow.setText(
             String.join("\n"
-                , "-Numero de Matricula: "
-                , numMatricula
-                , "-Sede: "
-                , sede
-                , "-Semestre"
-                , semestr
-                , "-Ciclo"
-                , ciclo
-                , "-Nombre Facultad"
-                , nombreFacultad
-                , "-Escuela: "
-                , Escuela
-                , "-Nombre Alumno"
-                , nombreAlumno
-                , "-Apellidos: "
-                , ApellidosAlumno
-                , "-Fecha de Nacimiento"
-                , fechaNac
-                , "-Plan de Estudio"
-                , codigo
-                , "-Catalogo"
-                , catalog
+                , "-Codigo de Cliente: "
+                , CodigoC
+                , ""
+                , "-Nombre del Cliente: "
+                , NombreC
+                , ""
+                , "-Direccion entrega"
+                , Direccion
+                , ""
+                , "-Telefono del cliente"
+                , TelefonoC
+                , ""
+                , "-Codigo Factura"
+                , CodigoF
+                , ""
+                , "-Tipo Pago: "
+                , TipoP
+                , ""
+                , "-Monto"
+                , Monto
+                , ""
+                , "-Celular Vendedor: "
+                , CodigoDF
+                , ""    
+                , "-Precio Unit: "
+                , PrecioUni
+                , ""
+                , "-Subtotal"
+                , Subtotal
+                , ""
+                , "-Cantidad"
+                , CantidadDF
+                , ""
+                , "-Codigo Producto"
+                , CodigoPr
+                , ""
+                , "-Descripcion: "
+                , Descripcion
+                , ""
+                , "-Precio de Referencia: "
+                , PrecioRf
+                , ""
+                , "-Codigo Detalle Pedido"
+                , CodigoDP
+                , ""
+                , "-Cantidad Detalle Pedido"
+                , CantidadDP
+                , ""
+                , "-Codigo Pedido"
+                , CodigoP
+                , ""
+                , "-Fecha de Pedido: "
+                , FechaP
+                , ""
+                , "-Estado Pedido"
+                , Estado
+                , ""
+                , "-Codigo Motorizado"
+                , CodigoM
+                , ""
+                , "-Nombre Motorizado: "
+                , NombreMo
+                , "" 
+                , "-Celular del Motorizado: "
+                , Celular
+                , ""
             )
         );
     }//GEN-LAST:event_btnLeerActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        // TODO add your handling code here:
+        txpShow.setText("El pedido llegara en 30 minutos" );
+           
+    }//GEN-LAST:event_btnEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -557,7 +634,6 @@ public class Main2 extends javax.swing.JFrame {
     private javax.swing.JTextArea txpShow;
     private javax.swing.JTextField txtCantidadDF;
     private javax.swing.JTextField txtCantidadDP;
-    private javax.swing.JTextField txtCantidadMotorizado;
     private javax.swing.JTextField txtCodigoC;
     private javax.swing.JTextField txtCodigoDF;
     private javax.swing.JTextField txtCodigoDP;
@@ -565,13 +641,14 @@ public class Main2 extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoMotorizado;
     private javax.swing.JTextField txtCodigoP;
     private javax.swing.JTextField txtCodigoPr;
-    private javax.swing.JTextField txtConsigna;
+    private javax.swing.JTextField txtCoelular;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEstadoPedido;
     private javax.swing.JTextField txtFechaPedido;
     private javax.swing.JTextField txtMonto;
     private javax.swing.JTextField txtNombreC;
+    private javax.swing.JTextField txtNombreMotorizado;
     private javax.swing.JTextField txtPrecioRef;
     private javax.swing.JTextField txtPrecioUnit;
     private javax.swing.JTextField txtSubtotal;
